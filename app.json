@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "MyReactNative",
+    "slug": "MyReactNative",
+    "version": "1.0.0",
+    "android": {
+      "package": "Myreactnative.Android"
+    }
+  }}
