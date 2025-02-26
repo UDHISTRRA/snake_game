@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Difficulty</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            color: #333;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #333333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .difficulty-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            background-color: #555555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select Difficulty Level</h1>
+    <button class="difficulty-button" onclick="chooseDifficulty('Easy')">Easy</button>
+    <button class="difficulty-button" onclick="chooseDifficulty('Medium')">Medium</button>
+    <button class="difficulty-button" onclick="chooseDifficulty('Hard')">Hard</button>
+
+    <script>
+        function chooseDifficulty(level) {
+            window.location.href = `levels.html?difficulty=${level}`;
+        }
+    </script>
+</body>
+</html>
