@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            animation: fadeIn 2s ease-in-out;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .game-over {
+            font-size: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ff4081;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .scoreboard {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #ff85a2;
+            color: white;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .game-button {
+            width: 120px;
+            height: 50px;
+            background: #ff85a2;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            border: none;
+        }
+
+        .game-button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-over">Game Over</div>
+    <div class="scoreboard">
+        <h2>Leaderboard</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Difficulty</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="score-table">
+                <!-- Scores will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="buttons">
+        <button class="game-button" onclick="goHome()">Home</button>
+        <button class="game-button" onclick="restartGame()">Restart</button>
+    </div>
+
+    <script>
+        let scores = JSON.parse(localStorage.getItem('gameScores')) || [];
+        let scoreTable = document.getElementById("score-table");
+
+        function updateScoreboard() {
+            scoreTable.innerHTML = "";
+            scores.slice(-5).reverse().forEach(game => {
+                let row = `<tr>
+                    <td>${game.player}</td>
+                    <td>${game.difficulty}</td>
+                    <td>${game.score}</td>
+                </tr>`;
+                scoreTable.innerHTML += row;
+            });
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+
+        function restartGame() {
+            window.location.href = "levels.html";
+        }
+
+        updateScoreboard();
+    </script>
+</body>
+</html>

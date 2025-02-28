@@ -47,9 +47,17 @@
                 }
             }
 
-
         h2 {
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .game-board {
@@ -126,25 +134,32 @@
         .key:active {
             background: #222;
             box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
-        }       
-
-        .game-board.shake {
-            animation: shake 0.35s infinite;
         }
 
-        @keyframes shake {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            50% { transform: rotate(0deg); }
-            75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
+        .game-button{
+            width: 90px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgb(228, 204, 110);
+            color: rgb(35, 33, 3);
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.9);
+            transition: 0.2s;
         }
 
     </style>
 </head>
 <body>
     <div class="dust"></div>
-    <h2>Score: <span id="score">0</span></h2>
+    <div class="header">
+        <button class="game-button" onclick="homepage()">Home</button>
+        <h2>Score: <span id="score">0</span></h2>
+        <button class="game-button" onclick="restart()">Restart</button>
+    </div>
     <div class="game-board" id="game-board"></div>
     <div class="keyboard" id="keyboard"></div>
 
@@ -205,6 +220,7 @@
         function checkCollision(head) {
             if (head.x < 0 || head.x >= boardSize || head.y < 0 || head.y >= boardSize) {
                 gameBoard.classList.add("shake");
+                window.location.href = "gameover.html"; // Redirect to game over page
 
                 setTimeout(() => {
                     gameBoard.classList.remove("shake");
@@ -281,6 +297,14 @@
             createKeyboard();
             render();
             setInterval(moveSnake, 400);
+        }
+
+        function homepage() {
+            window.location.href = "index.html"; // Navigate to home page
+        }
+
+        function restart() {
+            window.location.href = "levels.html"; // Navigate to home page
         }
 
         startGame();
