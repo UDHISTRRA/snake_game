@@ -7,110 +7,127 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
+        :root {
+             --size: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        .dust {
+            position: fixed; /* Stay in place */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Move it behind everything */
+            background: conic-gradient(from 180deg at 50% 70%, #fff 0deg, #eec32d 72deg, #ec4b4b 144deg, #709ab9 216deg, #4dffbf 288deg, #fff 1turn);
+             mask:
+                 radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+                url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
+                mask-composite: intersect;
+                animation: flicker 20s infinite linear;
+            }
+
+        @keyframes flicker {
+            to {
+                mask-position: 50% 50%, 0 50%;
+                }
+            }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 40px;
-            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            gap: 20px;
+            background: linear-gradient(135deg, #1e1e2e, #252538);
             height: 100vh;
             font-family: 'Poppins', sans-serif;
-            color: #333;
-            animation: fadeIn 2s ease-in-out;
-            overflow: hidden;
+            color: #fff;
             text-align: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .game-over {
             font-size: 50px;
-            font-weight: bold;
-            text-transform: uppercase;
             color: #ff4081;
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
+            text-shadow: 2px 2px 10px rgba(255, 64, 129, 0.7);
         }
 
         .scoreboard {
-            width: 90%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            color: #fff;
         }
 
         th, td {
             padding: 12px;
-            border-bottom: 1px solid #ccc;
-            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         th {
-            background: #ff85a2;
-            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 18px;
+        }
+
+        td {
+            font-size: 16px;
         }
 
         .buttons {
-            margin-top: 20px;
             display: flex;
             gap: 20px;
         }
 
         .game-button {
-            width: 120px;
-            height: 50px;
-            background: #ff85a2;
+            padding: 12px 24px;
+            background: #ff4081;
             color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 10px;
+            font-size: 16px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
             border: none;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
+            transition: all 0.3s ease-in-out;
         }
 
         .game-button:hover {
-            transform: scale(1.1);
+            background: #e03572;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
+    <div class="dust"></div>
     <div class="game-over">Game Over</div>
     <div class="scoreboard">
-        <h2>Leaderboard</h2>
+        <h3>Leaderboard</h3>
         <table>
             <thead>
                 <tr>
                     <th>Player</th>
-                    <th>Difficulty</th>
                     <th>Score</th>
                 </tr>
             </thead>
             <tbody id="score-table">
-                <!-- Scores will be dynamically inserted here -->
+                <!-- Scores will be inserted here -->
             </tbody>
         </table>
     </div>
@@ -126,11 +143,7 @@
         function updateScoreboard() {
             scoreTable.innerHTML = "";
             scores.slice(-5).reverse().forEach(game => {
-                let row = `<tr>
-                    <td>${game.player}</td>
-                    <td>${game.difficulty}</td>
-                    <td>${game.score}</td>
-                </tr>`;
+                let row = `<tr><td>${game.player}</td><td>${game.score}</td></tr>`;
                 scoreTable.innerHTML += row;
             });
         }
