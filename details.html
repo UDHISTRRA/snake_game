@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
         :root {
-             --size: 20px;
+            --size: 20px;
         }
 
         * {
@@ -122,12 +122,25 @@
             <label for="birthdate">Birthdate:</label>
             <input type="date" id="birthdate" name="birthdate" required>
         </div>
-        <button type="submit" onclick="startGame()">Submit</button>
+        <button type="submit" onclick="saveUserData()">Submit</button>
     </div>
+
+    <script>
+        function saveUserData() {
+            let playerName = document.getElementById("name").value.trim();
+            let birthdate = document.getElementById("birthdate").value.trim();
+
+            if (!playerName || !birthdate) {
+                alert("Please enter both name and birthdate.");
+                return;
+            }
+
+            localStorage.setItem("playerName", playerName);
+            localStorage.setItem("birthdate", birthdate);
+
+            alert("Your details have been saved!");
+            window.location.href = "difficulty.html";
+        }
+    </script>
 </body>
-<script>
-    function startGame() {
-        window.location.href = "difficulty.html"; // Navigate to difficulty level page
-    }
-</script>
 </html>

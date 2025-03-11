@@ -307,6 +307,10 @@
             window.location.href = "levels.html"; // Navigate to home page
         }
 
+        function endGame(finalScore) {
+        localStorage.setItem("currentScore", finalScore); // Store score
+        }
+
         startGame();
     </script>
 </body>

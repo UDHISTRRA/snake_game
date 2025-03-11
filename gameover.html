@@ -3,160 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Over</title>
+    <title>Levels</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-
-        :root {
-             --size: 20px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .dust {
-            position: fixed; /* Stay in place */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Move it behind everything */
-            background: conic-gradient(from 180deg at 50% 70%, #fff 0deg, #eec32d 72deg, #ec4b4b 144deg, #709ab9 216deg, #4dffbf 288deg, #fff 1turn);
-             mask:
-                 radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
-                url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
-                mask-composite: intersect;
-                animation: flicker 20s infinite linear;
-            }
-
-        @keyframes flicker {
-            to {
-                mask-position: 50% 50%, 0 50%;
-                }
-            }
-
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 20px;
-            background: linear-gradient(135deg, #1e1e2e, #252538);
-            height: 100vh;
             font-family: 'Poppins', sans-serif;
-            color: #fff;
+            background-color: #1b1a1a;
+            color: white;
             text-align: center;
+            padding-top: 50px;
         }
-
-        .game-over {
-            font-size: 50px;
+        h1 {
             color: #ff4081;
-            text-shadow: 2px 2px 10px rgba(255, 64, 129, 0.7);
         }
-
-        .scoreboard {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 500px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            color: #fff;
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        th {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background: #e65787;
+            color: white;
+            text-decoration: none;
             font-size: 18px;
-        }
-
-        td {
-            font-size: 16px;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .game-button {
-            padding: 12px 24px;
-            background: #ff4081;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            border: none;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
-            transition: all 0.3s ease-in-out;
+            transition: 0.3s;
         }
-
-        .game-button:hover {
-            background: #e03572;
-            transform: scale(1.05);
+        .button:hover {
+            background: #ff4081;
+        }
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+            background: #222;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #555;
+        }
+        th {
+            background: #ff4081;
         }
     </style>
 </head>
 <body>
-    <div class="dust"></div>
-    <div class="game-over">Game Over</div>
+    <h1>Game Over</h1>
+    <h2>Your Score: <span id="final-score">0</span></h2>
+    <a href="levels.html" class="button">Play Again</a>
+    <a href="index.html" class="button">Home</a>
     
-    <div class="buttons">
-        <button class="game-button" onclick="goHome()">Home</button>
-        <button class="game-button" onclick="restartGame()">Restart</button>
-    </div>
-    <div class="scoreboard">
-        <h3>Leaderboard</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody id="score-table">
-                <!-- Scores will be inserted here -->
-            </tbody>
-        </table>
-    </div>
-
+    <h2>Leaderboard</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="score-table">
+            <!-- Scores will be inserted here -->
+        </tbody>
+    </table>
+    
     <script>
-        let scores = JSON.parse(localStorage.getItem('gameScores')) || [];
-        let scoreTable = document.getElementById("score-table");
-
         function updateScoreboard() {
+            let scores = JSON.parse(localStorage.getItem("gameScores")) || [];
+            let scoreTable = document.getElementById("score-table");
+            let finalScore = localStorage.getItem("currentScore") || 0;
+            document.getElementById("final-score").innerText = finalScore;
+
             scoreTable.innerHTML = "";
-            scores.slice(-5).reverse().forEach(game => {
+            scores.sort((a, b) => b.score - a.score); // Sort by high score
+            scores.slice(0, 5).forEach(game => {
                 let row = `<tr><td>${game.player}</td><td>${game.score}</td></tr>`;
                 scoreTable.innerHTML += row;
             });
         }
-
-        function goHome() {
-            window.location.href = "index.html";
-        }
-
-        function restartGame() {
-            window.location.href = "levels.html";
-        }
-
+        
         updateScoreboard();
     </script>
 </body>
