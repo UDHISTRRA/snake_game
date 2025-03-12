@@ -219,18 +219,19 @@
 
         function checkCollision(head) {
             if (head.x < 0 || head.x >= boardSize || head.y < 0 || head.y >= boardSize) {
-                gameBoard.classList.add("shake");
-                window.location.href = "gameover.html"; // Redirect to game over page
+        
+        // Save final score to localStorage
+                localStorage.setItem("currentScore", score);
 
                 setTimeout(() => {
-                    gameBoard.classList.remove("shake");
-                }, 500);
+                 gameBoard.classList.remove("shake");
+                 window.location.href = "gameover.html"; // Redirect to game over page
+        }, 500);
 
-                resetGame();
-                return true;
-            }
+                 return true;
+            }   
             return false;
-        }
+        }          
 
         function autoMoveToFood() {
             if (snake[0].x !== food.x) {

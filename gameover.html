@@ -48,7 +48,7 @@
 </head>
 <body>
     <h1>Game Over</h1>
-    <h2>Your Score: <span id="final-score">0</span></h2>
+    <h2>Your Score: <span id="final-score"></span></h2>
     <a href="levels.html" class="button">Play Again</a>
     <a href="index.html" class="button">Home</a>
     
@@ -69,8 +69,14 @@
         function updateScoreboard() {
             let scores = JSON.parse(localStorage.getItem("gameScores")) || [];
             let scoreTable = document.getElementById("score-table");
-            let finalScore = localStorage.getItem("currentScore") || 0;
+            let finalScore = parseInt(localStorage.getItem("currentScore")) || 0;
+            let playerName = localStorage.getItem("playerName") || "Unknown";
             document.getElementById("final-score").innerText = finalScore;
+
+            if (finalScore > 0) {
+                scores.push({ player: playerName, score: finalScore });
+                localStorage.setItem("gameScores", JSON.stringify(scores));
+            }
 
             scoreTable.innerHTML = "";
             scores.sort((a, b) => b.score - a.score); // Sort by high score
