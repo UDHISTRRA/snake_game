@@ -58,7 +58,19 @@
         .header {
             display: flex;
             align-items: center;
-            gap: 20px;
+            flex-direction: column;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 400px;
+        }
+
+        .score-container {
+            margin-top: 3px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff4081;
         }
 
         .game-board {
@@ -70,7 +82,7 @@
             padding: 5px;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 40px; /* Move board up */
+            margin-top: 10px; /* Move board up */
         }
 
         .cell {
@@ -156,9 +168,13 @@
 <body>
     <div class="dust"></div>
     <div class="header">
+        <div class="buttons">
         <button class="game-button" onclick="homepage()">Home</button>
-        <h2>Score: <span id="score">0</span></h2>
         <button class="game-button" onclick="restart()">Restart</button>
+        </div>
+        <div class="score-container">
+            <h2>Score: <span id="score">0</span></h2>
+        </div>
     </div>
     <div class="game-board" id="game-board"></div>
     <div class="keyboard" id="keyboard"></div>
